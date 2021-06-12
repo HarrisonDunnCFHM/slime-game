@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 229250363}
   - component: {fileID: 229250364}
   - component: {fileID: 229250362}
+  - component: {fileID: 229250365}
   m_Layer: 7
   m_Name: Red Slime
   m_TagString: Untagged
@@ -370,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d77a390c70d7634da9e145d02635cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnColor: red
+  slimeColor: red
   slimeSpeed: 10
   slimeMovesBase: 1
 --- !u!212 &229250360
@@ -432,7 +433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229250358}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -494,6 +495,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &229250365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 229250358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30c2acea335cb748a3f4829078a026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextMoveTarget: {fileID: 779641724125092039, guid: 535fbfe0cf7434e4e807783901b84181, type: 3}
 --- !u!1 &281407802
 GameObject:
   m_ObjectHideFlags: 0
@@ -921,66 +935,6 @@ Transform:
   - {fileID: 281407803}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &511914158
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 511914161}
-  - component: {fileID: 511914160}
-  - component: {fileID: 511914159}
-  m_Layer: 0
-  m_Name: Wall Finder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!70 &511914159
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511914158}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.32023787}
-  m_Size: {x: 0.5, y: 1.0976996}
-  m_Direction: 0
---- !u!114 &511914160
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511914158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6c26023edd552d0418e2c8a568acbc0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &511914161
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 511914158}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -1498,7 +1452,7 @@ GameObject:
   - component: {fileID: 1015626035}
   - component: {fileID: 1015626034}
   - component: {fileID: 1015626033}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1565,7 +1519,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015626031}
-  m_BodyType: 2
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -4065,6 +4019,7 @@ GameObject:
   - component: {fileID: 1175725858}
   - component: {fileID: 1175725857}
   - component: {fileID: 1175725862}
+  - component: {fileID: 1175725863}
   m_Layer: 7
   m_Name: Blue Slime
   m_TagString: Untagged
@@ -4121,7 +4076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d77a390c70d7634da9e145d02635cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnColor: blue
+  slimeColor: blue
   slimeSpeed: 10
   slimeMovesBase: 1
 --- !u!212 &1175725860
@@ -4208,6 +4163,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1175725863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1175725856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30c2acea335cb748a3f4829078a026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextMoveTarget: {fileID: 779641724125092039, guid: 535fbfe0cf7434e4e807783901b84181, type: 3}
 --- !u!1 &1355301274
 GameObject:
   m_ObjectHideFlags: 0
@@ -4645,7 +4613,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1646145967
 GameObject:
@@ -4908,6 +4876,7 @@ GameObject:
   - component: {fileID: 2045546869}
   - component: {fileID: 2045546873}
   - component: {fileID: 2045546868}
+  - component: {fileID: 2045546874}
   m_Layer: 7
   m_Name: Green Slime
   m_TagString: Untagged
@@ -4964,7 +4933,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d77a390c70d7634da9e145d02635cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pawnColor: green
+  slimeColor: green
   slimeSpeed: 10
   slimeMovesBase: 1
 --- !u!212 &2045546871
@@ -5051,6 +5020,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2045546874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2045546867}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a30c2acea335cb748a3f4829078a026a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nextMoveTarget: {fileID: 779641724125092039, guid: 535fbfe0cf7434e4e807783901b84181, type: 3}
 --- !u!1 &2087815280
 GameObject:
   m_ObjectHideFlags: 0

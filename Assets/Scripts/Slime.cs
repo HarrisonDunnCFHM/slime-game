@@ -21,7 +21,10 @@ public class Slime : MonoBehaviour
     Vector2 direction;
     float slimeMoves;
     Rigidbody2D myRigidbody;
- 
+    NextMove myNextMove;
+    bool showMoves;
+    Vector3? oldPos;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,6 +33,7 @@ public class Slime : MonoBehaviour
         hazardsOnMap = FindObjectsOfType<Hazard>();
         levelManager = FindObjectOfType<LevelManager>();
         myRigidbody = GetComponent<Rigidbody2D>();
+        myNextMove = GetComponent<NextMove>();
     }
 
     // Update is called once per frame
@@ -55,38 +59,50 @@ public class Slime : MonoBehaviour
         foreach (Slime slime in slimesOnMap)
         {
             slime.activeSlime = false;
+            slime.myNextMove.DeleteOldMoves();
         }
         activeSlime = true;
+        showMoves = true;
+
     }
 
     private void HandleMovement()
     {
         if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
+            showMoves = true;
             direction = Vector2.up;
             slimeMoves = slimeMovesBase;
             enemyMoves++;
         }
         else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
         {
+            showMoves = true;
             direction = Vector2.down;
             slimeMoves = slimeMovesBase;
             enemyMoves++;
         }
         else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
+            showMoves = true;
             direction = Vector2.right;
             slimeMoves = slimeMovesBase;
             enemyMoves++;
         }
         else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
+            showMoves = true;
             direction = Vector2.left;
             slimeMoves = slimeMovesBase;
             enemyMoves++;
         }
         if (slimeMoves > 0)
         {
+            if (oldPos == null)
+            {
+                oldPos = transform.position;
+                Debug.Log("oldPos stored: " + oldPos.Value.ToString());
+            }
             myRigidbody.velocity = direction * slimeSpeed;
             slimeMoves -= Time.deltaTime * slimeSpeed;
         }
@@ -94,8 +110,14 @@ public class Slime : MonoBehaviour
         {
             myRigidbody.velocity = Vector2.zero;
             SnapToGrid();
+            if (showMoves == true)
+            {
+                oldPos = null;
+                myNextMove.CheckForNextMoves(slimeColor);
+                showMoves = false;
+            }
         }
-        if(enemyMoves > 0)
+        if (enemyMoves > 0)
         {
             StartCoroutine(ActivateHazards());
             enemyMoves--;
@@ -110,13 +132,32 @@ public class Slime : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        var collidedHazard = collision.GetComponent<Hazard>();
-        var collidedGoal = collision.GetComponent<Goal>();
-        if (collidedHazard != null)
+        HazardCheck(collision);
+        GoalCheck(collision);
+        WallCheck(collision);
+    }
+
+    private void WallCheck(Collider2D collision)
+    {
+        var collidedWall = collision.name;
+        if (collidedWall == "Wall")
         {
-                levelManager.ResetLevel();
+            transform.position = oldPos.Value;
+            Debug.Log("pos set to oldpos " + oldPos.Value.ToString());
+            oldPos = null;
+
+            /*var direction = transform.position - collision.transform.position;
+            int roundedX = Mathf.RoundToInt(direction.x);
+            int roundedY = Mathf.RoundToInt(direction.y);
+            Vector3 roundedDir = new Vector2(roundedX, roundedY);
+            transform.position -= roundedDir.normalized;*/
         }
-        else if (collidedGoal != null)
+    }
+
+    private void GoalCheck(Collider2D collision)
+    {
+        var collidedGoal = collision.GetComponent<Goal>();
+        if (collidedGoal != null)
         {
             var goalColor = collidedGoal.GetGoalColor();
             if (goalColor == slimeColor)
@@ -127,6 +168,14 @@ public class Slime : MonoBehaviour
         }
     }
 
+    private void HazardCheck(Collider2D collision)
+    {
+        var collidedHazard = collision.GetComponent<Hazard>();
+        if (collidedHazard != null)
+        {
+            levelManager.ResetLevel();
+        }
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
