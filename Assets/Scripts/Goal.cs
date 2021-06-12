@@ -21,13 +21,11 @@ public class Goal : MonoBehaviour
 
     public void ActivateGoal()
     {
-        Debug.Log("Goal Entered!");
         goalActive = true;
     }
 
     public void DeactivateGoal()
     {
-        Debug.Log("Goal Exited!");
         goalActive = false;
     }
 

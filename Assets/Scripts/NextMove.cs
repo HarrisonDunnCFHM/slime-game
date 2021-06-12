@@ -10,11 +10,15 @@ public class NextMove : MonoBehaviour
     //cached refs
     Vector3[] directions;
     List<GameObject> oldMoves;
+    Vector2 nextUp;
+    Vector2 nextDown;
+    Vector2 nextRight;
+    Vector2 nextLeft;
 
     // Start is called before the first frame update
     void Start()
     {
-        directions = new Vector3[] { Vector3.up, Vector3.down, Vector3.left, Vector3.right};
+        directions = new Vector3[] { Vector3.up, Vector3.down, Vector3.right, Vector3.left};
     }
 
     // Update is called once per frame
@@ -23,12 +27,12 @@ public class NextMove : MonoBehaviour
         
     }
 
-    public void CheckForNextMoves(string slimeColor)
+    public void CheckForNextMoves(string slimeColor, GameObject slime)
     {
         DeleteOldMoves();
-        oldMoves = new List<GameObject>(); 
+        oldMoves = new List<GameObject>();
         float slimeDist;
-        if(slimeColor == "blue")
+        if (slimeColor == "blue")
         {
             slimeDist = Mathf.Infinity;
         }
@@ -40,16 +44,15 @@ public class NextMove : MonoBehaviour
         {
             int wallLayer = LayerMask.GetMask("Walls");
             int slimeLayer = LayerMask.GetMask("Slimes");
-            int layerMask  = slimeLayer | wallLayer;
+            int layerMask = slimeLayer | wallLayer;
             RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, slimeDist, layerMask);
             if (!hit)
             {
                 var newMove = Instantiate(nextMoveTarget, transform.position + direction, Quaternion.identity);
                 oldMoves.Add(newMove);
             }
-            if (hit && slimeColor == "blue" && hit.collider.name == "Wall")
+            else if (hit && slimeColor == "blue" && hit.collider.name == "Wall")
             {
-                Debug.Log("wall hit point is " + hit.point.ToString());
                 Vector2 transform2d = transform.position;
                 var hitVector2 = transform2d - hit.point;
                 float targetDistance = hitVector2.magnitude - 0.5f;
@@ -58,6 +61,10 @@ public class NextMove : MonoBehaviour
                     Vector3 newTarget = hitVector2.normalized * targetDistance;
                     var newMove = Instantiate(nextMoveTarget, transform.position - newTarget, Quaternion.identity);
                     oldMoves.Add(newMove);
+                }
+                else
+                {
+                    oldMoves.Add(null);
                 }
             }
             else if (hit && slimeColor == "blue" && hit.collider.GetComponent<Slime>() != null)
@@ -70,15 +77,48 @@ public class NextMove : MonoBehaviour
                     var newMove = Instantiate(nextMoveTarget, transform.position - newTarget, Quaternion.identity);
                     oldMoves.Add(newMove);
                 }
+                else
+                {
+                    oldMoves.Add(null);
+                }
             }
             else if (hit && slimeColor == "blue")
             {
-                
-                    var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
-                    oldMoves.Add(newMove);
-                
+
+                var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
+                oldMoves.Add(newMove);
+            }
+            else if (hit && slimeColor == "red" && hit.collider.GetComponent<Slime>() != null)
+            {
+                var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
+                oldMoves.Add(newMove);
+            }
+            else if (hit)
+            {
+                oldMoves.Add(null);
             }
         }
+        if (oldMoves[0] != null)
+        { 
+            nextUp = oldMoves[0].transform.position;
+        }
+        else { nextUp = slime.transform.position; }
+        if (oldMoves[1] != null)
+        {
+            nextDown = oldMoves[1].transform.position;
+        }
+        else { nextDown = slime.transform.position; }
+        if (oldMoves[2] != null)
+        {
+            nextRight = oldMoves[2].transform.position;
+        }
+        else { nextRight = slime.transform.position; }
+        if (oldMoves[3] != null)
+        {
+            nextLeft = oldMoves[3].transform.position;
+        } 
+        else { nextLeft = slime.transform.position; }
+        slime.GetComponent<Slime>().GatherNextMoves(nextUp, nextDown, nextRight, nextLeft);
     }
 
     public void ShowNextMove()

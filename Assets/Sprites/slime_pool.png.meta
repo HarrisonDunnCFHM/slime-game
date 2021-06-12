@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: a71e982e5011cf643a8c16f521665bec
+guid: 06cba6f2165452244b1f9afd4fc479a1
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4136514182408662782
-    second: crab_enemy_red_0
+      213: 2478733374033191590
+    second: slime_pool_0
   - first:
-      213: -5624788454366718397
-    second: crab_enemy_red_1
+      213: 4828668219069582200
+    second: slime_pool_1
   - first:
-      213: -8425512659808095408
-    second: crab_enemy_red_2
+      213: -6014404962547849328
+    second: slime_pool_2
   - first:
-      213: -2387484437777344443
-    second: crab_enemy_red_3
+      213: -5849473517353570231
+    second: slime_pool_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -104,7 +104,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -115,7 +115,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: crab_enemy_red_0
+      name: slime_pool_0
       rect:
         serializedVersion: 2
         x: 0
@@ -129,14 +129,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: efe65d29bb9d76930800000000000000
-      internalID: 4136514182408662782
+      spriteID: 6a2672ceeda366220800000000000000
+      internalID: 2478733374033191590
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crab_enemy_red_1
+      name: slime_pool_1
       rect:
         serializedVersion: 2
         x: 64
@@ -150,14 +150,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 346d0c0c3bcb0f1b0800000000000000
-      internalID: -5624788454366718397
+      spriteID: 87b4cdf6920e20340800000000000000
+      internalID: 4828668219069582200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crab_enemy_red_2
+      name: slime_pool_2
       rect:
         serializedVersion: 2
         x: 128
@@ -171,14 +171,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 053f49d40e0921b80800000000000000
-      internalID: -8425512659808095408
+      spriteID: 0972dff5d8a888ca0800000000000000
+      internalID: -6014404962547849328
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: crab_enemy_red_3
+      name: slime_pool_3
       rect:
         serializedVersion: 2
         x: 192
@@ -192,8 +192,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5481283ad83fdded0800000000000000
-      internalID: -2387484437777344443
+      spriteID: 940f51be3de72dea0800000000000000
+      internalID: -5849473517353570231
       vertices: []
       indices: 
       edges: []
