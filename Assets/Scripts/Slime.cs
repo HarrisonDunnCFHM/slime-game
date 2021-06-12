@@ -56,7 +56,7 @@ public class Slime : MonoBehaviour
         }
         else
         {
-            SnapToGrid();
+            //SnapToGrid();
         }
     }
 
@@ -124,10 +124,10 @@ public class Slime : MonoBehaviour
         }
         if (slimeMoves > 0)
         {
-            if (oldPos == null)
+            if (oldPos == null) 
             {
                 oldPos = transform.position;
-                if (slimePool != null)
+                if (slimePool != null)//green slime poison rules
                 {
                     GameObject newPool = Instantiate(slimePool, oldPos.Value, Quaternion.identity);
                     if (poolsOnMap.Count < maxSlimePools)
@@ -145,12 +145,12 @@ public class Slime : MonoBehaviour
                     }
                 }
             }
-            myRigidbody.velocity = direction * slimeSpeed;
-            slimeMoves -= Time.deltaTime * slimeSpeed;
+            myRigidbody.velocity = direction.normalized * slimeSpeed;
+            slimeMoves -= Time.deltaTime * slimeSpeed / direction.magnitude;
         }
         else if (slimeMoves <= 0)
         {
-            SnapToGrid(); //possibly causing known snapping bug for blue slime
+            SnapToGrid();
             myRigidbody.velocity = Vector2.zero;
             myNextMove.CheckForNextMoves(slimeColor, gameObject);
 
@@ -192,6 +192,7 @@ public class Slime : MonoBehaviour
 
     private void SlimeCheck(Collider2D collision)
     {
+        if (slimeColor != "red") { return; }
         var collidedSlime = collision.GetComponent<Slime>();
         if (collidedSlime != null)
         {

@@ -50,6 +50,9 @@ TagManager:
   - name: Hazards
     uniqueID: 493734133
     locked: 0
+  - name: Enemies
+    uniqueID: 1484620223
+    locked: 0
   - name: Pawns
     uniqueID: 3118485677
     locked: 0
