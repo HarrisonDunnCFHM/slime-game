@@ -349,8 +349,8 @@ GameObject:
   - component: {fileID: 229250360}
   - component: {fileID: 229250359}
   - component: {fileID: 229250363}
-  - component: {fileID: 229250362}
   - component: {fileID: 229250364}
+  - component: {fileID: 229250362}
   m_Layer: 7
   m_Name: Red Slime
   m_TagString: Untagged
@@ -451,8 +451,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.015744328, y: -0.007872164}
-  m_Size: {x: 0.6391957, y: 1.0013148}
+  m_Offset: {x: -0.008356571, y: -0.03693998}
+  m_Size: {x: 0.8487129, y: 0.8487129}
   m_Direction: 0
 --- !u!50 &229250363
 Rigidbody2D:
@@ -1565,7 +1565,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015626031}
-  m_BodyType: 0
+  m_BodyType: 2
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -4085,8 +4085,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01574397, y: 0}
-  m_Size: {x: 0.60770655, y: 0.9225929}
+  m_Offset: {x: -0.008356571, y: -0.03693998}
+  m_Size: {x: 0.8487129, y: 0.8487129}
   m_Direction: 0
 --- !u!50 &1175725858
 Rigidbody2D:
@@ -4906,8 +4906,8 @@ GameObject:
   - component: {fileID: 2045546871}
   - component: {fileID: 2045546870}
   - component: {fileID: 2045546869}
-  - component: {fileID: 2045546868}
   - component: {fileID: 2045546873}
+  - component: {fileID: 2045546868}
   m_Layer: 7
   m_Name: Green Slime
   m_TagString: Untagged
@@ -4928,8 +4928,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.007872343, y: -0.1495713}
-  m_Size: {x: 0.59196186, y: 0.59196186}
+  m_Offset: {x: -0.008356571, y: -0.03693998}
+  m_Size: {x: 0.8487129, y: 0.8487129}
   m_Direction: 0
 --- !u!50 &2045546869
 Rigidbody2D:

@@ -3,19 +3,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pawn : MonoBehaviour
+public class Slime : MonoBehaviour
 {
 
     //config params
-    [SerializeField] string pawnColor;
+    [SerializeField] string slimeColor;
     [SerializeField] float slimeSpeed = 3;
     [SerializeField] float slimeMovesBase = 1f;
 
-    Pawn[] pawnsOnMap;
+    Slime[] slimesOnMap;
     Hazard[] hazardsOnMap;
 
     //cached references
-    bool activePawn; 
+    bool activeSlime; 
     LevelManager levelManager;
     int enemyMoves = 0;
     Vector2 direction;
@@ -25,8 +25,8 @@ public class Pawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        activePawn = false;
-        pawnsOnMap = FindObjectsOfType<Pawn>();
+        activeSlime = false;
+        slimesOnMap = FindObjectsOfType<Slime>();
         hazardsOnMap = FindObjectsOfType<Hazard>();
         levelManager = FindObjectOfType<LevelManager>();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -35,7 +35,7 @@ public class Pawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (activePawn)
+        if (activeSlime)
         {
             HandleMovement();
         }
@@ -46,17 +46,17 @@ public class Pawn : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         foreach (Hazard hazard in hazardsOnMap)
         {
-            hazard.ActivateHazard(pawnColor);
+            hazard.ActivateHazard(slimeColor);
         }
     }
 
     private void OnMouseDown()
     {
-        foreach (Pawn pawn in pawnsOnMap)
+        foreach (Slime slime in slimesOnMap)
         {
-            pawn.activePawn = false;
+            slime.activeSlime = false;
         }
-        activePawn = true;
+        activeSlime = true;
     }
 
     private void HandleMovement()
@@ -119,7 +119,7 @@ public class Pawn : MonoBehaviour
         else if (collidedGoal != null)
         {
             var goalColor = collidedGoal.GetGoalColor();
-            if (goalColor == pawnColor)
+            if (goalColor == slimeColor)
             {
                 collidedGoal.ActivateGoal();
                 levelManager.OnGoal();
@@ -134,7 +134,7 @@ public class Pawn : MonoBehaviour
         if (collidedGoal != null)
         {
             var goalColor = collidedGoal.GetGoalColor();
-            if (goalColor == pawnColor)
+            if (goalColor == slimeColor)
             {
                 collidedGoal.DeactivateGoal();
                 levelManager.OffGoal();
@@ -142,9 +142,9 @@ public class Pawn : MonoBehaviour
         }
     }
 
-    public string GetPawnColor()
+    public string GetSlimeColor()
     {
-        return pawnColor;
+        return slimeColor;
     }
 
 }

@@ -53,9 +53,9 @@ public class Hazard : MonoBehaviour
         }
     }
 
-    public void ActivateHazard(string pawnColor)
+    public void ActivateHazard(string slimeColor)
     {
-        if (pawnColor == hazardColor)
+        if (slimeColor == hazardColor)
         {
             if (isEnemy)
             {
