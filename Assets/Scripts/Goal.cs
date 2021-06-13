@@ -7,7 +7,7 @@ public class Goal : MonoBehaviour
     //config params
     [SerializeField] string goalColor;
     
-    bool goalActive;
+    //bool goalActive;
 
 
     //cached ref
@@ -16,10 +16,10 @@ public class Goal : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        goalActive = false;
+        //goalActive = false;
     }
 
-    public void ActivateGoal()
+    /*public void ActivateGoal()
     {
         goalActive = true;
     }
@@ -27,7 +27,7 @@ public class Goal : MonoBehaviour
     public void DeactivateGoal()
     {
         goalActive = false;
-    }
+    }*/
 
     public string GetGoalColor()
     {

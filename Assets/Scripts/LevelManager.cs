@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     //cached refs
     Goal[] goalsOnMap;
     bool levelWin;
+    bool levelLose;
 
     private void Start()
     {
@@ -57,6 +58,12 @@ public class LevelManager : MonoBehaviour
         AudioSource.PlayClipAtPoint(clipSet[pickedSound], Camera.main.transform.position, slimeVolume);
     }
 
+    public void ResetGoals()
+    {
+        goalsHave = 0;
+        goalsFinished.text = "Goals: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
+    }
+
     public void OnGoal()
     {
         goalsHave++;
@@ -71,13 +78,28 @@ public class LevelManager : MonoBehaviour
     
     public void GameOver()
     {
+        levelLose = true;
         resetMenu.SetActive(true);
     }
     
     public void ResetLevel()
     {
         resetMenu.SetActive(false);
+        levelLose = false;
+        ResetGoals();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public bool CheckLevelPlayable()
+    {
+        if (levelLose || levelWin)
+        {
+            return false;
+        }
+        else
+        { 
+            return true; 
+        }
     }
 
 }

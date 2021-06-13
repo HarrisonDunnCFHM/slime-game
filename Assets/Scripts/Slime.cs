@@ -80,6 +80,7 @@ public class Slime : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!levelManager.CheckLevelPlayable()) { return; }
         if (!canPickSlimes) { return; }
         foreach (Slime slime in slimesOnMap)
         {
@@ -98,6 +99,7 @@ public class Slime : MonoBehaviour
     {
         if (myRigidbody.velocity == Vector2.zero)
         {
+            if (!levelManager.CheckLevelPlayable()) { return; }
             if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
             {
                 if (nextUp == transform.position) { return; }
@@ -240,7 +242,7 @@ public class Slime : MonoBehaviour
             var goalColor = collidedGoal.GetGoalColor();
             if (goalColor == slimeColor)
             {
-                collidedGoal.ActivateGoal();
+                //collidedGoal.ActivateGoal();
                 levelManager.OnGoal();
             }
         }
@@ -279,7 +281,7 @@ public class Slime : MonoBehaviour
             var goalColor = collidedGoal.GetGoalColor();
             if (goalColor == slimeColor)
             {
-                collidedGoal.DeactivateGoal();
+                //collidedGoal.DeactivateGoal();
                 levelManager.OffGoal();
             }
         }
