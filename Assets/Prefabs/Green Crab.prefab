@@ -164,9 +164,9 @@ MonoBehaviour:
   isEnemy: 1
   isTrap: 0
   moveTimerBase: 1
-  moveSpeed: 10
-  goingDown: 1
-  goingUp: 0
+  moveSpeed: 3
+  goingDown: 0
+  goingUp: 1
   goingLeft: 0
   goingRight: 0
 --- !u!50 &2385031615066405720

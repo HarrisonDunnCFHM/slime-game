@@ -178,14 +178,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Red Crab
       objectReference: {fileID: 0}
-    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
-      propertyPath: goingUp
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
-      propertyPath: goingDown
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
 --- !u!1001 &47774237
@@ -405,14 +397,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
-      propertyPath: goingUp
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
-      propertyPath: goingDown
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2385031615066405722, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: m_Name
       value: Green Crab

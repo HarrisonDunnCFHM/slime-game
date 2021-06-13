@@ -260,7 +260,7 @@ MonoBehaviour:
   isEnemy: 1
   isTrap: 0
   moveTimerBase: 1
-  moveSpeed: 10
+  moveSpeed: 3
   goingDown: 0
   goingUp: 0
   goingLeft: 1
