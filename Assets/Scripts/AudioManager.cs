@@ -13,11 +13,13 @@ public class AudioManager : MonoBehaviour
     float effectsVolume;
     AudioSource myAudioSource;
 
+
     private void Awake()
     {
-        int numberOfManagers = FindObjectsOfType<AudioManager>().Length;
+              int numberOfManagers = FindObjectsOfType<AudioManager>().Length;
         if (numberOfManagers > 1)
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
         else

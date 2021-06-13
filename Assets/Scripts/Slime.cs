@@ -22,7 +22,7 @@ public class Slime : MonoBehaviour
     Queue<GameObject> poolsOnMap;
 
     //cached references
-    bool activeSlime; 
+    bool activeSlime;
     LevelManager levelManager;
     int enemyMoves = 0;
     Vector2 direction;
@@ -91,8 +91,7 @@ public class Slime : MonoBehaviour
         activeSlime = true;
         showMoves = true;
         pushed = false;
-        PlaySound(slimeSelect);
-        PlaySound(slimeSquish); 
+        PlaySound(slimeSelect, 0.2f);
     }
 
     private void HandleMovement()
@@ -139,9 +138,9 @@ public class Slime : MonoBehaviour
         }
         if (slimeMoves > 0)
         {
-            if (oldPos == null) 
+            if (oldPos == null)
             {
-                PlaySound(slimeSquish);
+                PlaySound(slimeSquish, -0.1f);
                 oldPos = transform.position;
                 if (slimePool != null)//green slime poison rules
                 {
@@ -214,6 +213,7 @@ public class Slime : MonoBehaviour
         var collidedSlime = collision.GetComponent<Slime>();
         if (collidedSlime != null)
         {
+            if (collidedSlime.activeSlime == true) { return; }
             collidedSlime.pushed = true;
             var collidedSlimePos = collidedSlime.myRigidbody.transform.position;
             var collidedDirection = collidedSlimePos - myRigidbody.transform.position;
@@ -255,7 +255,8 @@ public class Slime : MonoBehaviour
         {
             if (slimeColor != "green")
             {
-                PlaySound(slimeDeath);
+                myRigidbody.velocity = Vector2.zero;
+                PlaySound(slimeDeath, 0.1f);
                 levelManager.GameOver();
             }
             else
@@ -266,7 +267,8 @@ public class Slime : MonoBehaviour
                 }
                 else
                 {
-                    PlaySound(slimeDeath);
+                    myRigidbody.velocity = Vector2.zero;
+                    PlaySound(slimeDeath, 0.1f);
                     levelManager.GameOver();
                 }
             }
@@ -287,10 +289,10 @@ public class Slime : MonoBehaviour
         }
     }
 
-    private void PlaySound(List<AudioClip> clipSet)
+    private void PlaySound(List<AudioClip> clipSet, float volumeOffset)
     {
         int pickedSound = UnityEngine.Random.Range(0, clipSet.Count);
-        AudioSource.PlayClipAtPoint(clipSet[pickedSound], Camera.main.transform.position, GetVolume());
+        AudioSource.PlayClipAtPoint(clipSet[pickedSound], Camera.main.transform.position, GetVolume() + volumeOffset);
     }
 
     private float GetVolume()

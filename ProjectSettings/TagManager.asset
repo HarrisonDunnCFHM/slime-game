@@ -47,6 +47,9 @@ TagManager:
   - name: Grid
     uniqueID: 3624958973
     locked: 0
+  - name: Pathing
+    uniqueID: 3810528179
+    locked: 0
   - name: Hazards
     uniqueID: 493734133
     locked: 0
@@ -55,9 +58,6 @@ TagManager:
     locked: 0
   - name: Pawns
     uniqueID: 3118485677
-    locked: 0
-  - name: Pathing
-    uniqueID: 3810528179
     locked: 0
   - name: UI
     uniqueID: 969912147

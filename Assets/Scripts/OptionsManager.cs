@@ -13,6 +13,7 @@ public class OptionsManager : MonoBehaviour
         int optionsManagers = FindObjectsOfType<OptionsManager>().Length;
         if (optionsManagers > 1)
         {
+            gameObject.SetActive(false);
             Destroy(gameObject);
         }
         else
