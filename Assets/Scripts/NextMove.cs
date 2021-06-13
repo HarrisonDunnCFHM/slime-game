@@ -90,8 +90,16 @@ public class NextMove : MonoBehaviour
             }
             else if (hit && slimeColor == "red" && hit.collider.GetComponent<Slime>() != null)
             {
-                var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
-                oldMoves.Add(newMove);
+                RaycastHit2D secondHit = Physics2D.Raycast(hit.collider.GetComponent<Rigidbody2D>().position, direction, slimeDist, layerMask);
+                if (!secondHit)
+                {
+                    var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
+                    oldMoves.Add(newMove);
+                }
+                else
+                {
+                    oldMoves.Add(null);
+                }
             }
             else if (hit)
             {

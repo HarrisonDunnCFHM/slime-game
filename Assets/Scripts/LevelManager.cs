@@ -10,13 +10,18 @@ public class LevelManager : MonoBehaviour
     //config params
     [SerializeField] Text goalsFinished;
     [SerializeField] GameObject winScreen;
-    
+    [SerializeField] GameObject resetMenu;
+    [SerializeField] List<AudioClip> slimeWin;
+    [SerializeField] float slimeVolume = 0.6f;
+
+
     int goalsNeeded;
     int goalsHave;
     
 
     //cached refs
     Goal[] goalsOnMap;
+    bool levelWin;
 
     private void Start()
     {
@@ -25,14 +30,31 @@ public class LevelManager : MonoBehaviour
         goalsHave = 0;
         goalsFinished.text = "Goals: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
         winScreen.SetActive(false);
+        resetMenu.SetActive(false);
+        levelWin = false;
     }
 
     private void Update()
     {
         if (goalsHave == goalsNeeded)
         {
-            winScreen.SetActive(true);
+            if (!levelWin)
+            {
+                Slime[] activeSlimes = FindObjectsOfType<Slime>();
+                foreach (Slime slime in activeSlimes)
+                {
+                    playSound(slimeWin);
+                }
+                winScreen.SetActive(true);
+                levelWin = true;
+            }
         }
+    }
+
+    private void playSound(List<AudioClip> clipSet)
+    {
+        int pickedSound = UnityEngine.Random.Range(0, clipSet.Count);
+        AudioSource.PlayClipAtPoint(clipSet[pickedSound], Camera.main.transform.position, slimeVolume);
     }
 
     public void OnGoal()
@@ -47,8 +69,14 @@ public class LevelManager : MonoBehaviour
         goalsFinished.text = "Goals: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
     }
     
+    public void GameOver()
+    {
+        resetMenu.SetActive(true);
+    }
+    
     public void ResetLevel()
     {
+        resetMenu.SetActive(false);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
