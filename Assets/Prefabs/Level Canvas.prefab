@@ -99,7 +99,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7167874564331006255
 Transform:
   m_ObjectHideFlags: 0
@@ -303,6 +303,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 39b519fd1de9cde44bc3b0bf57741b58, type: 3}
   - {fileID: 8300000, guid: bc34cbb218e3c1441890414865b35171, type: 3}
   slimeVolume: 0.6
+  isSplashScreen: 0
 --- !u!1 &3033509954226269125
 GameObject:
   m_ObjectHideFlags: 0
