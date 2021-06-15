@@ -8702,6 +8702,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 130.2634
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 55.958
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.08
+      objectReference: {fileID: 0}
     - target: {fileID: 808351484863375401, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
       propertyPath: m_Text
       value: Main Menu
