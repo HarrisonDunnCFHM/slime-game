@@ -9180,6 +9180,38 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 214.3264
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 55.958
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 278406480204304077, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761557530258869468, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 143.0695
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761557530258869468, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 38.1437
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761557530258869468, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4761557530258869468, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.42
+      objectReference: {fileID: 0}
     - target: {fileID: 7620909027861672112, guid: d1f5ae285c0a9744b86c416585cc17d4, type: 3}
       propertyPath: m_Text
       value: 'Red Slimes are STRONG!
