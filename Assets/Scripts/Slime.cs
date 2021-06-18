@@ -8,6 +8,8 @@ public class Slime : MonoBehaviour
 
     //config params
     [SerializeField] string slimeColor;
+    [SerializeField] enum Slimecolors { blue, green, red};
+    [SerializeField] Slimecolors myColor;
     [SerializeField] float slimeSpeed = 3;
     [SerializeField] float slimeMovesBase = 1f;
     [SerializeField] GameObject slimePool;
@@ -52,9 +54,8 @@ public class Slime : MonoBehaviour
         poolsOnMap = new Queue<GameObject>();
         pushed = false;
         audioManager = FindObjectOfType<AudioManager>();
-        //bool canPickSlimes = true;
-
     }
+    
 
     // Update is called once per frame
     void Update()
