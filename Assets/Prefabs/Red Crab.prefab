@@ -100,15 +100,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596b32df79d9bbd4bb06b4781458c556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hazardColor: red
+  myColor: 2
   isEnemy: 1
   isTrap: 0
   moveTimerBase: 1
   moveSpeed: 3
-  goingDown: 1
+  goingDown: 0
   goingUp: 0
   goingLeft: 0
-  goingRight: 0
+  goingRight: 1
 --- !u!50 &3069494712945477647
 Rigidbody2D:
   serializedVersion: 4

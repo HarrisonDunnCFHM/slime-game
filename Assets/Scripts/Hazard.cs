@@ -7,17 +7,19 @@ public class Hazard : MonoBehaviour
 {
 
     //config params
-    [SerializeField] string hazardColor;
+    [SerializeField] PublicVars.Color myColor;
     [SerializeField] bool isEnemy;
     [SerializeField] bool isTrap;
 
     [SerializeField] float moveTimerBase;
     [SerializeField] float moveSpeed = 10;
 
-    [SerializeField] bool goingDown;
-    [SerializeField] bool goingUp;
-    [SerializeField] bool goingLeft;
-    [SerializeField] bool goingRight;
+    [SerializeField] PublicVars.StartingDirection myDirection;
+
+    //[SerializeField] bool goingDown;
+    //[SerializeField] bool goingUp;
+    //[SerializeField] bool goingLeft;
+    //[SerializeField] bool goingRight;
 
     //ref params
     Rigidbody2D myRigidbody;
@@ -27,10 +29,10 @@ public class Hazard : MonoBehaviour
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
-        if (goingDown) { transform.eulerAngles = new Vector3(0, 0, 0f);}
-        if (goingUp) { transform.eulerAngles = new Vector3(0, 0, 180f); }
-        if (goingLeft) { transform.eulerAngles= new Vector3(0,0,-90f); }
-        if (goingRight) { transform.eulerAngles = new Vector3(0, 0, 90f); }
+        if (myDirection == PublicVars.StartingDirection.down) { transform.eulerAngles = new Vector3(0, 0, 0f);}
+        if (myDirection == PublicVars.StartingDirection.up) { transform.eulerAngles = new Vector3(0, 0, 180f); }
+        if (myDirection == PublicVars.StartingDirection.left) { transform.eulerAngles= new Vector3(0,0,-90f); }
+        if (myDirection == PublicVars.StartingDirection.right) { transform.eulerAngles = new Vector3(0, 0, 90f); }
     }
 
     // Update is called once per frame
@@ -53,9 +55,9 @@ public class Hazard : MonoBehaviour
         }
     }
 
-    public void ActivateHazard(string slimeColor)
+    public void ActivateHazard(PublicVars.Color slimeColor)
     {
-        if (slimeColor == hazardColor)
+        if (slimeColor == myColor)
         {
             if (isEnemy)
             {
@@ -96,9 +98,9 @@ public class Hazard : MonoBehaviour
 
     private Vector2 GetDirection()
     {
-        if (goingDown) { return Vector2.down; }
-        else if (goingUp) { return Vector2.up; }
-        else if (goingLeft) { return Vector2.left; }
+        if (myDirection == PublicVars.StartingDirection.down) { return Vector2.down; }
+        else if (myDirection == PublicVars.StartingDirection.up) { return Vector2.up; }
+        else if (myDirection == PublicVars.StartingDirection.left) { return Vector2.left; }
         else { return Vector2.right; }
     }
 
@@ -110,28 +112,24 @@ public class Hazard : MonoBehaviour
 
     private void ChangeDirection()
     {
-        if (goingDown)
-        { 
-            goingDown = false;
-            goingUp = true;
+        if (myDirection == PublicVars.StartingDirection.down)
+        {
+            myDirection = PublicVars.StartingDirection.up;
             transform.eulerAngles = new Vector3(0, 0, 180f);
         }
-        else if (goingUp)
+        else if (myDirection == PublicVars.StartingDirection.up)
         {
-            goingUp = false;
-            goingDown = true;
+            myDirection = PublicVars.StartingDirection.down;
             transform.eulerAngles = new Vector3(0, 0, 0f);
         }
-        else if (goingRight)
+        else if (myDirection == PublicVars.StartingDirection.right)
         {
-            goingRight = false;
-            goingLeft = true;
+            myDirection = PublicVars.StartingDirection.left;
             transform.eulerAngles = new Vector3(0, 0, -90f);
         }
-        else if (goingLeft)
+        else if (myDirection == PublicVars.StartingDirection.left)
         {
-            goingLeft = false;
-            goingRight = true;
+            myDirection = PublicVars.StartingDirection.right;
             transform.eulerAngles = new Vector3(0, 0, 90f);
         }
     }

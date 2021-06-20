@@ -7,9 +7,7 @@ public class Slime : MonoBehaviour
 {
 
     //config params
-    [SerializeField] string slimeColor;
-    [SerializeField] enum Slimecolors { blue, green, red};
-    [SerializeField] Slimecolors myColor;
+    [SerializeField] PublicVars.Color myColor;
     [SerializeField] float slimeSpeed = 3;
     [SerializeField] float slimeMovesBase = 1f;
     [SerializeField] GameObject slimePool;
@@ -75,7 +73,7 @@ public class Slime : MonoBehaviour
         yield return new WaitForSeconds(.1f);
         foreach (Hazard hazard in hazardsOnMap)
         {
-            hazard.ActivateHazard(slimeColor);
+            hazard.ActivateHazard(myColor);
         }
     }
 
@@ -170,7 +168,7 @@ public class Slime : MonoBehaviour
             canPickSlimes = true;
             SnapToGrid();
             myRigidbody.velocity = Vector2.zero;
-            myNextMove.CheckForNextMoves(slimeColor, gameObject);
+            myNextMove.CheckForNextMoves(myColor, gameObject);
 
             if (showMoves == true)
             {
@@ -210,7 +208,7 @@ public class Slime : MonoBehaviour
 
     private void SlimeCheck(Collider2D collision)
     {
-        if (slimeColor != "red") { return; }
+        if (myColor != PublicVars.Color.red) { return; }
         var collidedSlime = collision.GetComponent<Slime>();
         if (collidedSlime != null)
         {
@@ -241,7 +239,7 @@ public class Slime : MonoBehaviour
         if (collidedGoal != null)
         {
             var goalColor = collidedGoal.GetGoalColor();
-            if (goalColor == slimeColor)
+            if (goalColor == myColor)
             {
                 //collidedGoal.ActivateGoal();
                 levelManager.OnGoal();
@@ -254,7 +252,7 @@ public class Slime : MonoBehaviour
         var collidedHazard = collision.GetComponent<Hazard>();
         if (collidedHazard != null)
         {
-            if (slimeColor != "green")
+            if (myColor != PublicVars.Color.green)
             {
                 myRigidbody.velocity = Vector2.zero;
                 PlaySound(slimeDeath, 0.1f);
@@ -282,7 +280,7 @@ public class Slime : MonoBehaviour
         if (collidedGoal != null)
         {
             var goalColor = collidedGoal.GetGoalColor();
-            if (goalColor == slimeColor)
+            if (goalColor == myColor)
             {
                 //collidedGoal.DeactivateGoal();
                 levelManager.OffGoal();
@@ -301,9 +299,9 @@ public class Slime : MonoBehaviour
         float currentVol = audioManager.GetSFXVolume();
         return currentVol;
     }
-    public string GetSlimeColor()
+    public PublicVars.Color GetSlimeColor()
     {
-        return slimeColor;
+        return myColor;
     }
 
 }

@@ -4285,7 +4285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3069494712945477640, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3069494712945477640, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
       propertyPath: m_LocalPosition.z
@@ -8889,6 +8889,10 @@ PrefabInstance:
     - target: {fileID: 4927727091951071124, guid: 3c125e5f060229941860d9a04de0727e, type: 3}
       propertyPath: m_Name
       value: Red Slime
+      objectReference: {fileID: 0}
+    - target: {fileID: 4927727091951071125, guid: 3c125e5f060229941860d9a04de0727e, type: 3}
+      propertyPath: myColor
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4927727091951071131, guid: 3c125e5f060229941860d9a04de0727e, type: 3}
       propertyPath: m_RootOrder

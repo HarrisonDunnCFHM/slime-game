@@ -5,7 +5,7 @@ using UnityEngine;
 public class Goal : MonoBehaviour
 {
     //config params
-    [SerializeField] string goalColor;
+    [SerializeField] PublicVars.Color myColor;
     
     //bool goalActive;
 
@@ -29,9 +29,9 @@ public class Goal : MonoBehaviour
         goalActive = false;
     }*/
 
-    public string GetGoalColor()
+    public PublicVars.Color GetGoalColor()
     {
-        return goalColor;
+        return myColor;
     }
 
 }

@@ -27,12 +27,12 @@ public class NextMove : MonoBehaviour
         
     }
 
-    public void CheckForNextMoves(string slimeColor, GameObject slime)
+    public void CheckForNextMoves(PublicVars.Color slimeColor, GameObject slime)
     {
         DeleteOldMoves();
         oldMoves = new List<GameObject>();
         float slimeDist;
-        if (slimeColor == "blue")
+        if (slimeColor == PublicVars.Color.blue)
         {
             slimeDist = Mathf.Infinity;
         }
@@ -51,7 +51,7 @@ public class NextMove : MonoBehaviour
                 var newMove = Instantiate(nextMoveTarget, transform.position + direction, Quaternion.identity);
                 oldMoves.Add(newMove);
             }
-            else if (hit && slimeColor == "blue" && hit.collider.name == "Wall")
+            else if (hit && slimeColor == PublicVars.Color.blue && hit.collider.name == "Wall")
             {
                 Vector2 transform2d = transform.position;
                 var hitVector2 = transform2d - hit.point;
@@ -67,7 +67,7 @@ public class NextMove : MonoBehaviour
                     oldMoves.Add(null);
                 }
             }
-            else if (hit && slimeColor == "blue" && hit.collider.GetComponent<Slime>() != null)
+            else if (hit && slimeColor == PublicVars.Color.blue && hit.collider.GetComponent<Slime>() != null)
             {
                 var hitVector3 = transform.position - hit.collider.transform.position;
                 var targetDistance = hitVector3.magnitude - 1;
@@ -82,13 +82,13 @@ public class NextMove : MonoBehaviour
                     oldMoves.Add(null);
                 }
             }
-            else if (hit && slimeColor == "blue")
+            else if (hit && slimeColor == PublicVars.Color.blue)
             {
 
                 var newMove = Instantiate(nextMoveTarget, hit.collider.transform.position, Quaternion.identity);
                 oldMoves.Add(newMove);
             }
-            else if (hit && slimeColor == "red" && hit.collider.GetComponent<Slime>() != null)
+            else if (hit && slimeColor == PublicVars.Color.red && hit.collider.GetComponent<Slime>() != null)
             {
                 RaycastHit2D secondHit = Physics2D.Raycast(hit.collider.GetComponent<Rigidbody2D>().position, direction, slimeDist, layerMask);
                 if (!secondHit)

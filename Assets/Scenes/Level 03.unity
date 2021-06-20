@@ -6380,6 +6380,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
+      propertyPath: myDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2385031615066405722, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: m_Name
       value: Green Crab
@@ -8185,6 +8189,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
+      propertyPath: myDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2385031615066405722, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: m_Name
       value: Green Crab (1)

@@ -3922,6 +3922,10 @@ PrefabInstance:
       propertyPath: goingLeft
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2356505175831344516, guid: a18a181e0e4f00840aadc81845f93a95, type: 3}
+      propertyPath: myDirection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2356505175831344522, guid: a18a181e0e4f00840aadc81845f93a95, type: 3}
       propertyPath: m_RootOrder
       value: 12
@@ -6819,6 +6823,10 @@ PrefabInstance:
       propertyPath: goingRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
+      propertyPath: myDirection
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2385031615066405722, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: m_Name
       value: Green Crab
@@ -8684,6 +8692,10 @@ PrefabInstance:
     - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: goingLeft
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2385031615066405721, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
+      propertyPath: myDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2385031615066405722, guid: 515974310e228f8499af1e1cd074f0a7, type: 3}
       propertyPath: m_Name

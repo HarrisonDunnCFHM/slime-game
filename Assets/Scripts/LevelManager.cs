@@ -14,8 +14,10 @@ public class LevelManager : MonoBehaviour
     [SerializeField] List<AudioClip> slimeWin;
     [SerializeField] float slimeVolume = 0.6f;
     [SerializeField] bool isSplashScreen;
+    [SerializeField] float goalTimer = 1f;
 
 
+    float currentGoalTime;
     int goalsNeeded;
     int goalsHave;
     
@@ -45,14 +47,22 @@ public class LevelManager : MonoBehaviour
         {
             if (!levelWin)
             {
-                Slime[] activeSlimes = FindObjectsOfType<Slime>();
-                foreach (Slime slime in activeSlimes)
+                currentGoalTime -= Time.deltaTime;
+                if (currentGoalTime <= 0)
                 {
-                    playSound(slimeWin);
+                    Slime[] activeSlimes = FindObjectsOfType<Slime>();
+                    foreach (Slime slime in activeSlimes)
+                    {
+                        playSound(slimeWin);
+                    }
+                    winScreen.SetActive(true);
+                    levelWin = true;
                 }
-                winScreen.SetActive(true);
-                levelWin = true;
             }
+        }
+        else
+        {
+            currentGoalTime = goalTimer;
         }
     }
 

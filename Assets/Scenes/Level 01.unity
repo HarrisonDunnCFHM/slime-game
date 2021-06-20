@@ -4107,6 +4107,10 @@ PrefabInstance:
       propertyPath: goingRight
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
+      propertyPath: myDirection
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
 --- !u!1001 &892378365
@@ -8455,6 +8459,18 @@ PrefabInstance:
     - target: {fileID: 3069494712945477645, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
       propertyPath: m_Name
       value: Red Crab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
+      propertyPath: goingDown
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
+      propertyPath: goingRight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3069494712945477646, guid: 717f6fbc5f8f83148945854073b39267, type: 3}
+      propertyPath: myDirection
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 717f6fbc5f8f83148945854073b39267, type: 3}

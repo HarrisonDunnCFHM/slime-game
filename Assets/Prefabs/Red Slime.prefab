@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d77a390c70d7634da9e145d02635cf5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  slimeColor: red
+  myColor: 2
   slimeSpeed: 5
   slimeMovesBase: 1
   slimePool: {fileID: 0}
