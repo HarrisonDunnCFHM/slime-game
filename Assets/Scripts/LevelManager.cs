@@ -16,16 +16,12 @@ public class LevelManager : MonoBehaviour
     [SerializeField] bool isSplashScreen;
     [SerializeField] float goalTimer = 1f;
 
-
+    //cached refs
+    Goal[] goalsOnMap;
+    bool levelPlayable;
     float currentGoalTime;
     int goalsNeeded;
     int goalsHave;
-    
-
-    //cached refs
-    Goal[] goalsOnMap;
-    bool levelWin;
-    bool levelLose;
 
     private void Start()
     {
@@ -36,16 +32,15 @@ public class LevelManager : MonoBehaviour
         goalsFinished.text = "Flags: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
         winScreen.SetActive(false);
         retryMenu.SetActive(false);
-        levelWin = false;
+        levelPlayable = true;
     }
 
     private void Update()
     {
         if (isSplashScreen) { return; }
-
         if (goalsHave == goalsNeeded)
         {
-            if (!levelWin)
+            if (levelPlayable)
             {
                 currentGoalTime -= Time.deltaTime;
                 if (currentGoalTime <= 0)
@@ -53,10 +48,10 @@ public class LevelManager : MonoBehaviour
                     Slime[] activeSlimes = FindObjectsOfType<Slime>();
                     foreach (Slime slime in activeSlimes)
                     {
-                        playSound(slimeWin);
+                        PlaySound(slimeWin);
                     }
                     winScreen.SetActive(true);
-                    levelWin = true;
+                    levelPlayable = false;
                 }
             }
         }
@@ -66,7 +61,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void playSound(List<AudioClip> clipSet)
+    private void PlaySound(List<AudioClip> clipSet)
     {
         int pickedSound = UnityEngine.Random.Range(0, clipSet.Count);
         AudioSource.PlayClipAtPoint(clipSet[pickedSound], Camera.main.transform.position, slimeVolume + 0.2f);
@@ -92,7 +87,7 @@ public class LevelManager : MonoBehaviour
     
     public void GameOver()
     {
-        levelLose = true;
+        levelPlayable = false;
         retryMenu.SetActive(true);
     }
     
@@ -100,8 +95,7 @@ public class LevelManager : MonoBehaviour
     {
         retryMenu.SetActive(false);
         winScreen.SetActive(false);
-        levelLose = false;
-        levelWin = false;
+        levelPlayable = true;
         ResetGoals();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
@@ -110,29 +104,21 @@ public class LevelManager : MonoBehaviour
     {
         retryMenu.SetActive(false);
         winScreen.SetActive(false);
-        levelWin = false;
+        levelPlayable = true;
         ResetGoals();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     public bool CheckLevelPlayable()
     {
-        if (levelLose || levelWin)
-        {
-            return false;
-        }
-        else
-        { 
-            return true; 
-        }
+        return levelPlayable;
     }
 
     public void LoadMainMenu()
     {
         retryMenu.SetActive(false);
         winScreen.SetActive(false);
-        levelWin = false;
-        levelLose = false;
+        levelPlayable = true;
         ResetGoals();
         SceneManager.LoadScene(0);
     }

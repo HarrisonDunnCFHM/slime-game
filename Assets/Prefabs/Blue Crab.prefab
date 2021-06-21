@@ -54,7 +54,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.32023787}
@@ -256,15 +256,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 596b32df79d9bbd4bb06b4781458c556, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hazardColor: blue
+  myColor: 0
   isEnemy: 1
   isTrap: 0
   moveTimerBase: 1
   moveSpeed: 3
-  goingDown: 0
-  goingUp: 0
-  goingLeft: 1
-  goingRight: 0
+  myDirection: 0
 --- !u!50 &2356505175831344519
 Rigidbody2D:
   serializedVersion: 4
@@ -296,7 +293,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -54,7 +54,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: -0.32023787}
@@ -165,10 +165,7 @@ MonoBehaviour:
   isTrap: 0
   moveTimerBase: 1
   moveSpeed: 3
-  goingDown: 0
-  goingUp: 0
-  goingLeft: 1
-  goingRight: 0
+  myDirection: 0
 --- !u!50 &2385031615066405720
 Rigidbody2D:
   serializedVersion: 4
@@ -219,7 +216,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ColorBlind : MonoBehaviour
 {
+    //config parameters
     [SerializeField] Sprite mySprite;
 
     //cached references

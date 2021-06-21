@@ -7,51 +7,59 @@ public class Slime : MonoBehaviour
 {
 
     //config params
-    [SerializeField] PublicVars.Color myColor;
-    [SerializeField] float slimeSpeed = 3;
-    [SerializeField] float slimeMovesBase = 1f;
+    [Header("General Slime Config")]
+    [Tooltip("Color of the slime")] [SerializeField] PublicVars.Color myColor;
+    [Tooltip("Speed of moving to next tile")] [SerializeField] float slimeSpeed = 3;
+    [Tooltip("Time to reach next time")] [SerializeField] float spacesToMove = 1f; //number of spaces to move, works as a timer with float slimeMovesTimer;
+    float slimeMovesTimer;
+
+    [Header("Green Slime Options")]
     [SerializeField] GameObject slimePool;
     [SerializeField] Vector3 poolShrinkSpeed = new Vector3(.2f, .2f, .2f);
     [SerializeField] int maxSlimePools;
+    [SerializeField] string SLIMECLONENAME = "Slime Pool(Clone)";
+
+    [Header("Slime Sounds")]
     [SerializeField] List<AudioClip> slimeSelect;
     [SerializeField] List<AudioClip> slimeSquish;
     [SerializeField] List<AudioClip> slimeDeath;
+    [SerializeField] float selectVolOffset = 0.2f; //recording quality for select is a little low
+    [SerializeField] float squishVolOffset = -0.1f; //recording qualify for squish is a little high
 
+    //cached references
+    LevelManager levelManager;
+    AudioManager audioManager;
     Slime[] slimesOnMap;
     Hazard[] hazardsOnMap;
     Queue<GameObject> poolsOnMap;
-
-    //cached references
-    bool activeSlime;
-    LevelManager levelManager;
-    int enemyMoves = 0;
-    Vector2 direction;
-    float slimeMoves;
-    Rigidbody2D myRigidbody;
     NextMove myNextMove;
-    bool showMoves;
+    Rigidbody2D myRigidbody;
+    Vector2 direction;
     Vector3? oldPos;
     Vector3 nextUp;
     Vector3 nextDown;
     Vector3 nextRight;
     Vector3 nextLeft;
+    bool activeSlime;
+    bool showMoves;
     bool pushed;
-    [SerializeField] bool canPickSlimes;
-    AudioManager audioManager;
-
+    bool canPickSlimes;
+    int enemyMoveCounter = 0;
 
     // Start is called before the first frame update
     void Start()
     {
-        activeSlime = false;
         slimesOnMap = FindObjectsOfType<Slime>();
         hazardsOnMap = FindObjectsOfType<Hazard>();
         levelManager = FindObjectOfType<LevelManager>();
+        audioManager = FindObjectOfType<AudioManager>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myNextMove = GetComponent<NextMove>();
         poolsOnMap = new Queue<GameObject>();
+        activeSlime = false;
         pushed = false;
-        audioManager = FindObjectOfType<AudioManager>();
+        canPickSlimes = true;
+
     }
     
 
@@ -61,10 +69,6 @@ public class Slime : MonoBehaviour
         if (activeSlime)
         {
             HandleMovement();
-        }
-        else
-        {
-            //SnapToGrid();
         }
     }
 
@@ -90,7 +94,7 @@ public class Slime : MonoBehaviour
         activeSlime = true;
         showMoves = true;
         pushed = false;
-        PlaySound(slimeSelect, 0.2f);
+        PlaySound(slimeSelect, selectVolOffset);
     }
 
     private void HandleMovement()
@@ -104,8 +108,8 @@ public class Slime : MonoBehaviour
                 canPickSlimes = false;
                 showMoves = true;
                 direction = nextUp - transform.position;
-                slimeMoves = slimeMovesBase;
-                enemyMoves++;
+                slimeMovesTimer = spacesToMove;
+                enemyMoveCounter++;
             }
             else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
             {
@@ -113,8 +117,8 @@ public class Slime : MonoBehaviour
                 canPickSlimes = false;
                 showMoves = true;
                 direction = nextDown - transform.position;
-                slimeMoves = slimeMovesBase;
-                enemyMoves++;
+                slimeMovesTimer = spacesToMove;
+                enemyMoveCounter++;
             }
             else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
             {
@@ -122,8 +126,8 @@ public class Slime : MonoBehaviour
                 canPickSlimes = false;
                 showMoves = true;
                 direction = nextRight - transform.position;
-                slimeMoves = slimeMovesBase;
-                enemyMoves++;
+                slimeMovesTimer = spacesToMove;
+                enemyMoveCounter++;
             }
             else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
             {
@@ -131,15 +135,15 @@ public class Slime : MonoBehaviour
                 canPickSlimes = false;
                 showMoves = true;
                 direction = nextLeft - transform.position;
-                slimeMoves = slimeMovesBase;
-                enemyMoves++;
+                slimeMovesTimer = spacesToMove;
+                enemyMoveCounter++;
             }
         }
-        if (slimeMoves > 0)
+        if (slimeMovesTimer > 0)
         {
             if (oldPos == null)
             {
-                PlaySound(slimeSquish, -0.1f);
+                PlaySound(slimeSquish, squishVolOffset);
                 oldPos = transform.position;
                 if (slimePool != null)//green slime poison rules
                 {
@@ -160,26 +164,25 @@ public class Slime : MonoBehaviour
                 }
             }
             myRigidbody.velocity = direction.normalized * slimeSpeed;
-            slimeMoves -= Time.deltaTime * slimeSpeed / direction.magnitude;
-            Vector2 distToTarget = direction - myRigidbody.position;
+            slimeMovesTimer -= Time.deltaTime * slimeSpeed / direction.magnitude;
+            //Vector2 distToTarget = direction - myRigidbody.position; //I can't remember what this does anymore. Just leaving it here for now
         }
-        else if (slimeMoves <= 0)
+        else if (slimeMovesTimer <= 0)
         {
             canPickSlimes = true;
             SnapToGrid();
             myRigidbody.velocity = Vector2.zero;
             myNextMove.CheckForNextMoves(myColor, gameObject);
-
             if (showMoves == true)
             {
                 oldPos = null;
                 showMoves = false;
             }
         }
-        if (enemyMoves > 0)
+        if (enemyMoveCounter > 0)
         {
             StartCoroutine(ActivateHazards());
-            enemyMoves--;
+            enemyMoveCounter--;
         }
     }
 
@@ -228,7 +231,7 @@ public class Slime : MonoBehaviour
         {
             if (pushed)
             {
-                levelManager.ResetLevel();
+                //levelManager.ResetLevel(); //disabled feature - leaving in for now just in case
             }
         }
     }
@@ -241,7 +244,6 @@ public class Slime : MonoBehaviour
             var goalColor = collidedGoal.GetGoalColor();
             if (goalColor == myColor)
             {
-                //collidedGoal.ActivateGoal();
                 levelManager.OnGoal();
             }
         }
@@ -260,7 +262,7 @@ public class Slime : MonoBehaviour
             }
             else
             {
-                if (collidedHazard.name == "Slime Pool(Clone)")
+                if (collidedHazard.name == SLIMECLONENAME)
                 {
                     return;
                 }
@@ -282,7 +284,6 @@ public class Slime : MonoBehaviour
             var goalColor = collidedGoal.GetGoalColor();
             if (goalColor == myColor)
             {
-                //collidedGoal.DeactivateGoal();
                 levelManager.OffGoal();
             }
         }

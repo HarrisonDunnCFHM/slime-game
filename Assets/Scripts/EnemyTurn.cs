@@ -13,8 +13,15 @@ public class EnemyTurn : MonoBehaviour
         myHazard = GetComponentInParent<Hazard>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        myHazard.ReverseDirection();
+        if (collision.name == "Wall")
+        {
+            myHazard.ReverseDirection();
+        }
+        if (collision.GetComponent<Hazard>() != null)
+        {
+            myHazard.ReverseDirection();
+        }
     }
 }
