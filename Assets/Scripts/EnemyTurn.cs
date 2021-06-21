@@ -19,7 +19,7 @@ public class EnemyTurn : MonoBehaviour
         {
             myHazard.ReverseDirection();
         }
-        if (collision.GetComponent<Hazard>() != null)
+        if (collision.GetComponent<Hazard>() != null && collision.name != "Slime Pool(Clone)")
         {
             myHazard.ReverseDirection();
         }
