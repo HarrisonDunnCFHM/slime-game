@@ -18,6 +18,7 @@ public class LevelManager : MonoBehaviour
 
     //cached refs
     Goal[] goalsOnMap;
+    PublicVars.Color activeColor;
     bool levelPlayable;
     float currentGoalTime;
     int goalsNeeded;
@@ -123,4 +124,13 @@ public class LevelManager : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
+    public void SetActiveColor(PublicVars.Color slimeColor)
+    {
+        activeColor = slimeColor;
+    }
+
+    public PublicVars.Color GetActiveColor()
+    {
+        return activeColor;
+    }
 }

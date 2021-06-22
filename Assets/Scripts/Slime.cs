@@ -29,6 +29,7 @@ public class Slime : MonoBehaviour
     //cached references
     LevelManager levelManager;
     AudioManager audioManager;
+    Animator myAnimator;
     Slime[] slimesOnMap;
     Hazard[] hazardsOnMap;
     Queue<GameObject> poolsOnMap;
@@ -55,11 +56,11 @@ public class Slime : MonoBehaviour
         audioManager = FindObjectOfType<AudioManager>();
         myRigidbody = GetComponent<Rigidbody2D>();
         myNextMove = GetComponent<NextMove>();
+        myAnimator = GetComponent<Animator>();
         poolsOnMap = new Queue<GameObject>();
         activeSlime = false;
         pushed = false;
         canPickSlimes = true;
-
     }
     
 
@@ -70,11 +71,17 @@ public class Slime : MonoBehaviour
         {
             HandleMovement();
         }
+        LayerGrid();
     }
 
-    private IEnumerator ActivateHazards()
+    private void LayerGrid()
     {
-        yield return new WaitForSeconds(.1f);
+        transform.position = new Vector3 (transform.position.x, transform.position.y, transform.position.y - 10);
+    }
+
+    private void ActivateHazards()
+    {
+        //yield return new WaitForSeconds(.1f);
         foreach (Hazard hazard in hazardsOnMap)
         {
             hazard.ActivateHazard(myColor);
@@ -95,6 +102,7 @@ public class Slime : MonoBehaviour
         showMoves = true;
         pushed = false;
         PlaySound(slimeSelect, selectVolOffset);
+        levelManager.SetActiveColor(myColor);
     }
 
     private void HandleMovement()
@@ -102,41 +110,44 @@ public class Slime : MonoBehaviour
         if (myRigidbody.velocity == Vector2.zero)
         {
             if (!levelManager.CheckLevelPlayable()) { return; }
-            if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+            if (slimeMovesTimer <= 0)
             {
-                if (nextUp == transform.position) { return; }
-                canPickSlimes = false;
-                showMoves = true;
-                direction = nextUp - transform.position;
-                slimeMovesTimer = spacesToMove;
-                enemyMoveCounter++;
-            }
-            else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
-            {
-                if (nextDown == transform.position) { return; }
-                canPickSlimes = false;
-                showMoves = true;
-                direction = nextDown - transform.position;
-                slimeMovesTimer = spacesToMove;
-                enemyMoveCounter++;
-            }
-            else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
-            {
-                if (nextRight == transform.position) { return; }
-                canPickSlimes = false;
-                showMoves = true;
-                direction = nextRight - transform.position;
-                slimeMovesTimer = spacesToMove;
-                enemyMoveCounter++;
-            }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
-            {
-                if (nextLeft == transform.position) { return; }
-                canPickSlimes = false;
-                showMoves = true;
-                direction = nextLeft - transform.position;
-                slimeMovesTimer = spacesToMove;
-                enemyMoveCounter++;
+                if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
+                {
+                    if (nextUp == transform.position) { return; }
+                    canPickSlimes = false;
+                    showMoves = true;
+                    direction = nextUp - transform.position;
+                    slimeMovesTimer = spacesToMove;
+                    enemyMoveCounter++;
+                }
+                else if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S))
+                {
+                    if (nextDown == transform.position) { return; }
+                    canPickSlimes = false;
+                    showMoves = true;
+                    direction = nextDown - transform.position;
+                    slimeMovesTimer = spacesToMove;
+                    enemyMoveCounter++;
+                }
+                else if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
+                {
+                    if (nextRight == transform.position) { return; }
+                    canPickSlimes = false;
+                    showMoves = true;
+                    direction = nextRight - transform.position;
+                    slimeMovesTimer = spacesToMove;
+                    enemyMoveCounter++;
+                }
+                else if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
+                {
+                    if (nextLeft == transform.position) { return; }
+                    canPickSlimes = false;
+                    showMoves = true;
+                    direction = nextLeft - transform.position;
+                    slimeMovesTimer = spacesToMove;
+                    enemyMoveCounter++;
+                }
             }
         }
         if (slimeMovesTimer > 0)
@@ -163,7 +174,9 @@ public class Slime : MonoBehaviour
                     }
                 }
             }
-            myRigidbody.velocity = direction.normalized * slimeSpeed;
+            transform.Translate(direction.normalized * slimeSpeed * Time.deltaTime);
+            
+            //myRigidbody.velocity = direction.normalized * slimeSpeed;
             slimeMovesTimer -= Time.deltaTime * slimeSpeed / direction.magnitude;
             //Vector2 distToTarget = direction - myRigidbody.position; //I can't remember what this does anymore. Just leaving it here for now
         }
@@ -181,7 +194,7 @@ public class Slime : MonoBehaviour
         }
         if (enemyMoveCounter > 0)
         {
-            StartCoroutine(ActivateHazards());
+            ActivateHazards();
             enemyMoveCounter--;
         }
     }
@@ -203,10 +216,29 @@ public class Slime : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        FearCheck(collision);
         HazardCheck(collision);
         GoalCheck(collision);
         SlimeCheck(collision);
         WallCheck(collision);
+    }
+
+
+
+    private void FearCheck(Collider2D collision)
+    {
+        var inFrontOfCrab = collision.GetComponent<EnemyTurn>();
+        if (inFrontOfCrab != null)
+        {
+            if (myAnimator.GetBool("isAfraid") == false)
+            {
+                myAnimator.SetBool("isAfraid", true);
+            }
+            else
+            {
+                myAnimator.SetBool("isAfraid", false);
+            }
+        }
     }
 
     private void SlimeCheck(Collider2D collision)
@@ -219,7 +251,8 @@ public class Slime : MonoBehaviour
             collidedSlime.pushed = true;
             var collidedSlimePos = collidedSlime.myRigidbody.transform.position;
             var collidedDirection = collidedSlimePos - myRigidbody.transform.position;
-            collidedSlime.myRigidbody.transform.position += collidedDirection.normalized;
+            var collidedDirNoZ = new Vector3(collidedDirection.x, collidedDirection.y, 0);
+            collidedSlime.myRigidbody.transform.position += collidedDirNoZ.normalized;
             collidedSlime.SnapToGrid();
         }
     }
@@ -257,6 +290,7 @@ public class Slime : MonoBehaviour
             if (myColor != PublicVars.Color.green)
             {
                 myRigidbody.velocity = Vector2.zero;
+                collidedHazard.StopHazardMove();
                 PlaySound(slimeDeath, 0.1f);
                 levelManager.GameOver();
             }
@@ -270,6 +304,7 @@ public class Slime : MonoBehaviour
                 {
                     myRigidbody.velocity = Vector2.zero;
                     PlaySound(slimeDeath, 0.1f);
+                    collidedHazard.StopHazardMove();
                     levelManager.GameOver();
                 }
             }
@@ -278,6 +313,7 @@ public class Slime : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        FearCheck(collision);
         var collidedGoal = collision.GetComponent<Goal>();
         if (collidedGoal != null)
         {
@@ -304,5 +340,6 @@ public class Slime : MonoBehaviour
     {
         return myColor;
     }
+
 
 }

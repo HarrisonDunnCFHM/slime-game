@@ -12,27 +12,29 @@ public class Hazard : MonoBehaviour
     [SerializeField] bool isTrap;
     [SerializeField] float moveTimerBase;
     [SerializeField] float moveSpeed = 10;
-    [SerializeField] PublicVars.StartingDirection myDirection;
+    [SerializeField] PublicVars.Direction myDirection;
 
     //ref params
     Rigidbody2D myRigidbody;
+    LevelManager levelManager;
     float moveTimer;
 
     private void Start()
     {
         myRigidbody = GetComponent<Rigidbody2D>();
+        levelManager = FindObjectOfType<LevelManager>();
         switch (myDirection)
             {
-            case PublicVars.StartingDirection.down: 
+            case PublicVars.Direction.down: 
                 transform.eulerAngles = new Vector3(0, 0, 0f);
                 break;
-            case PublicVars.StartingDirection.up:
+            case PublicVars.Direction.up:
                 transform.eulerAngles = new Vector3(0, 0, 180f);
                 break;
-            case PublicVars.StartingDirection.left:
+            case PublicVars.Direction.left:
                 transform.eulerAngles = new Vector3(0, 0, -90f); 
                 break;
-            case PublicVars.StartingDirection.right:  
+            case PublicVars.Direction.right:  
                 transform.eulerAngles = new Vector3(0, 0, 90f);
                 break;
             default:
@@ -45,8 +47,12 @@ public class Hazard : MonoBehaviour
     void Update()
     {
         HandleMovement();
+        LayerGrid();
     }
-
+    private void LayerGrid()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y - 10);
+    }
     private void HandleMovement()
     {
         if (moveTimer > 0)
@@ -57,8 +63,16 @@ public class Hazard : MonoBehaviour
         else if (moveTimer <= 0)
         {
             myRigidbody.velocity = Vector2.zero;
-            SnapToGrid();
+            if (levelManager.CheckLevelPlayable())
+            {
+                SnapToGrid();
+            }
         }
+    }
+
+    public void StopHazardMove()
+    {
+        moveTimer = 0;
     }
 
     public void ActivateHazard(PublicVars.Color slimeColor)
@@ -102,13 +116,13 @@ public class Hazard : MonoBehaviour
     {
         switch (myDirection)
         {
-            case PublicVars.StartingDirection.down:
+            case PublicVars.Direction.down:
                 return Vector2.down;
-            case PublicVars.StartingDirection.up:
+            case PublicVars.Direction.up:
                 return Vector2.up;
-            case PublicVars.StartingDirection.left:
+            case PublicVars.Direction.left:
                 return Vector2.left;
-            case PublicVars.StartingDirection.right:
+            case PublicVars.Direction.right:
                 return Vector2.right;
             default:
                 Debug.Log(name + " has no direction!");
@@ -126,20 +140,20 @@ public class Hazard : MonoBehaviour
     {
         switch (myDirection)
         {
-            case PublicVars.StartingDirection.down:
-                myDirection = PublicVars.StartingDirection.up;
+            case PublicVars.Direction.down:
+                myDirection = PublicVars.Direction.up;
                 transform.eulerAngles = new Vector3(0, 0, 180f);
                 break;
-            case PublicVars.StartingDirection.up:
-                myDirection = PublicVars.StartingDirection.down;
+            case PublicVars.Direction.up:
+                myDirection = PublicVars.Direction.down;
                 transform.eulerAngles = new Vector3(0, 0, 0f);
                 break;
-            case PublicVars.StartingDirection.right:
-                myDirection = PublicVars.StartingDirection.left;
+            case PublicVars.Direction.right:
+                myDirection = PublicVars.Direction.left;
                 transform.eulerAngles = new Vector3(0, 0, -90f);
                 break;
-            case PublicVars.StartingDirection.left:
-                myDirection = PublicVars.StartingDirection.right;
+            case PublicVars.Direction.left:
+                myDirection = PublicVars.Direction.right;
                 transform.eulerAngles = new Vector3(0, 0, 90f);
                 break;
             default:
@@ -154,4 +168,15 @@ public class Hazard : MonoBehaviour
         float newY = Mathf.RoundToInt(transform.position.y);
         transform.position = new Vector2(newX, newY);
     }
+
+    public PublicVars.Color GetMyColor()
+    {
+        return myColor;
+    }
+    public PublicVars.Direction GetMyDirection()
+    {
+        return myDirection;
+    }
+
+    
 }
