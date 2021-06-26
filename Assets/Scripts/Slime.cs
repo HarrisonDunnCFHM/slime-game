@@ -292,7 +292,7 @@ public class Slime : MonoBehaviour
                 myRigidbody.velocity = Vector2.zero;
                 collidedHazard.StopHazardMove();
                 PlaySound(slimeDeath, 0.1f);
-                levelManager.GameOver();
+                levelManager.GameOver(gameObject.GetComponent<Slime>());
             }
             else
             {
@@ -305,7 +305,7 @@ public class Slime : MonoBehaviour
                     myRigidbody.velocity = Vector2.zero;
                     PlaySound(slimeDeath, 0.1f);
                     collidedHazard.StopHazardMove();
-                    levelManager.GameOver();
+                    levelManager.GameOver(gameObject.GetComponent<Slime>());
                 }
             }
         }

@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 969912147
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7a69ab4c835019b44901530fc666396e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -155,7 +155,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 969912147
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 7a69ab4c835019b44901530fc666396e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -294,6 +294,8 @@ MonoBehaviour:
   goalsFinished: {fileID: 8606402002572586584}
   winScreen: {fileID: 1111543273788862616}
   retryMenu: {fileID: 1101266574378951569}
+  screenWipeObject: {fileID: 4968851031286832946, guid: f9efa47764db0f6499e021369c2949fe, type: 3}
+  wipeSpeed: 100
   slimeWin:
   - {fileID: 8300000, guid: 0c131bb232adbf84780523565cce0024, type: 3}
   - {fileID: 8300000, guid: 82884adfba3337444a5f0b9a2c9de3a3, type: 3}
@@ -595,7 +597,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 969912147
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 746002653ebaa044191bbdbf9713a489, type: 3}
   m_Color: {r: 0.5701589, g: 0.8867924, b: 0.53960484, a: 0.6392157}
@@ -1034,7 +1036,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 969912147
-  m_SortingLayer: 7
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 746002653ebaa044191bbdbf9713a489, type: 3}
   m_Color: {r: 0.5701589, g: 0.8867924, b: 0.53960484, a: 0.6392157}
@@ -1059,6 +1061,8 @@ GameObject:
   - component: {fileID: 7620909029078857265}
   - component: {fileID: 7620909029078857230}
   - component: {fileID: 7620909029078857231}
+  - component: {fileID: 1423079503}
+  - component: {fileID: 1423079502}
   m_Layer: 5
   m_Name: Level Canvas
   m_TagString: Untagged
@@ -1150,3 +1154,41 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!222 &1423079503
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620909029078857228}
+  m_CullTransparentMesh: 1
+--- !u!114 &1423079502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620909029078857228}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 5e529bb25b9a16543b1d540b46d7b106, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1

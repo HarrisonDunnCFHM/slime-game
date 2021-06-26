@@ -59,6 +59,9 @@ TagManager:
   - name: Pawns
     uniqueID: 3118485677
     locked: 0
+  - name: Screen Wipe
+    uniqueID: 1966910153
+    locked: 0
   - name: UI
     uniqueID: 969912147
     locked: 0

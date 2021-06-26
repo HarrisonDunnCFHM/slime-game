@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,8 @@ public class LevelManager : MonoBehaviour
     [SerializeField] Text goalsFinished;
     [SerializeField] GameObject winScreen;
     [SerializeField] GameObject retryMenu;
+    [SerializeField] GameObject screenWipeObject;
+    [SerializeField] float wipeSpeed = 1f;
     [SerializeField] List<AudioClip> slimeWin;
     [SerializeField] float slimeVolume = 0.6f;
     [SerializeField] bool isSplashScreen;
@@ -23,6 +26,8 @@ public class LevelManager : MonoBehaviour
     float currentGoalTime;
     int goalsNeeded;
     int goalsHave;
+    bool isWiping;
+    GameObject screenWipe;
 
     private void Start()
     {
@@ -86,19 +91,70 @@ public class LevelManager : MonoBehaviour
         goalsFinished.text = "Flags: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
     }
     
-    public void GameOver()
+    public void GameOver(Slime deadSlime)
     {
         levelPlayable = false;
+        StartCoroutine(ScreenWipe(deadSlime));
         retryMenu.SetActive(true);
     }
-    
-    public void ResetLevel()
+
+    private IEnumerator ScreenWipe(Slime deadSlime)
     {
+        screenWipe = Instantiate<GameObject>(screenWipeObject, deadSlime.transform.position, Quaternion.identity);
+        DontDestroyOnLoad(screenWipe);
+        //screenWipe.transform.localScale = new Vector3(50f, 50f, 1f);
+        Debug.Log(screenWipe.transform.localScale.ToString());
+        isWiping = true;
+        while (isWiping)
+        {
+            screenWipe.transform.localScale = new Vector3
+                (screenWipe.transform.localScale.x - (Time.deltaTime * ( wipeSpeed)),
+                screenWipe.transform.localScale.y - (Time.deltaTime * ( wipeSpeed)), 1f);
+            Debug.Log(screenWipe.transform.localScale.ToString());
+            if (screenWipe.transform.localScale.x <= 2f)
+            {
+                screenWipe.transform.localScale = new Vector3(2f, 2f, 1f);
+                isWiping = false;
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator ScreenUnwipe()
+    {
+        var screenWipes = FindObjectsOfType<GameObject>();
+        foreach(GameObject isScreenWipe in screenWipes)
+        {
+            if (isScreenWipe.name == "Screen Wipe(Clone)")
+            {
+                screenWipe = isScreenWipe;
+            }
+        }
+        isWiping = true;
+        while (isWiping)
+        {
+            screenWipe.transform.localScale = new Vector3
+                (screenWipe.transform.localScale.x + (Time.deltaTime * (wipeSpeed)),
+                screenWipe.transform.localScale.y + (Time.deltaTime * (wipeSpeed)), 1f);
+            Debug.Log(screenWipe.transform.localScale.ToString());
+            if (screenWipe.transform.localScale.x >= 50f)
+            {
+                Destroy(screenWipe);
+                isWiping = false;
+            }
+            yield return null;
+        }
         retryMenu.SetActive(false);
         winScreen.SetActive(false);
         levelPlayable = true;
         ResetGoals();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResetLevel()
+    {
+        StartCoroutine(ScreenUnwipe());
+        
     }
 
     public void LoadNextLevel()
