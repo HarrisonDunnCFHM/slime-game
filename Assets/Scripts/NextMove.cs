@@ -69,7 +69,8 @@ public class NextMove : MonoBehaviour
             }
             else if (hit && slimeColor == PublicVars.Color.blue && hit.collider.GetComponent<Slime>() != null)
             {
-                var hitVector3 = transform.position - hit.collider.transform.position;
+                Vector3 hitVectorNoZ = new Vector3(hit.transform.position.x, hit.transform.position.y, transform.position.z); //remove Z so indicator is calcing into the camera
+                var hitVector3 = transform.position - hitVectorNoZ;
                 var targetDistance = hitVector3.magnitude - 1;
                 if (targetDistance != 0)
                 {
