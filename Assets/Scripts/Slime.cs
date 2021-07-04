@@ -26,6 +26,8 @@ public class Slime : MonoBehaviour
     [SerializeField] float selectVolOffset = 0.2f; //recording quality for select is a little low
     [SerializeField] float squishVolOffset = -0.1f; //recording qualify for squish is a little high
 
+    [SerializeField] float minMaskSize = 8f;
+
     //cached references
     LevelManager levelManager;
     AudioManager audioManager;
@@ -35,6 +37,7 @@ public class Slime : MonoBehaviour
     Queue<GameObject> poolsOnMap;
     NextMove myNextMove;
     Rigidbody2D myRigidbody;
+    GameObject myGameOverMask;
     Vector2 direction;
     Vector3? oldPos;
     Vector3 nextUp;
@@ -45,6 +48,7 @@ public class Slime : MonoBehaviour
     bool showMoves;
     bool pushed;
     bool canPickSlimes;
+    [SerializeField] bool isDead;
     int enemyMoveCounter = 0;
 
     // Start is called before the first frame update
@@ -57,10 +61,13 @@ public class Slime : MonoBehaviour
         myRigidbody = GetComponent<Rigidbody2D>();
         myNextMove = GetComponent<NextMove>();
         myAnimator = GetComponent<Animator>();
+        myGameOverMask = GetComponentInChildren<SpriteMask>().gameObject;
+        myGameOverMask.SetActive(false);
         poolsOnMap = new Queue<GameObject>();
         activeSlime = false;
         pushed = false;
         canPickSlimes = true;
+        isDead = false;
     }
     
 
@@ -72,6 +79,25 @@ public class Slime : MonoBehaviour
             HandleMovement();
         }
         LayerGrid();
+        ShrinkGameOverMask();
+    }
+
+    private void ShrinkGameOverMask()
+    {
+        if (isDead)
+        {
+            myGameOverMask.SetActive(true);
+            if (myGameOverMask.transform.localScale.x > minMaskSize)
+            {
+                myGameOverMask.transform.localScale = new Vector3
+                (myGameOverMask.transform.localScale.x - (Time.deltaTime * (levelManager.GetWipeSpeed())),
+                myGameOverMask.transform.localScale.y - (Time.deltaTime * (levelManager.GetWipeSpeed())), 1f);
+            }
+            else if (myGameOverMask.transform.localScale.x <= minMaskSize)
+            {
+                myGameOverMask.transform.localScale = new Vector3(minMaskSize, minMaskSize, 1f);
+            }
+        }
     }
 
     private void LayerGrid()
@@ -81,7 +107,6 @@ public class Slime : MonoBehaviour
 
     private void ActivateHazards()
     {
-        //yield return new WaitForSeconds(.1f);
         foreach (Hazard hazard in hazardsOnMap)
         {
             hazard.ActivateHazard(myColor);
@@ -282,8 +307,14 @@ public class Slime : MonoBehaviour
         }
     }
 
+    public bool CheckDead()
+    {
+        return isDead;
+    }
+
     private void HazardCheck(Collider2D collision)
     {
+        if (isDead) { return; }
         var collidedHazard = collision.GetComponent<Hazard>();
         if (collidedHazard != null)
         {
@@ -292,7 +323,8 @@ public class Slime : MonoBehaviour
                 myRigidbody.velocity = Vector2.zero;
                 collidedHazard.StopHazardMove();
                 PlaySound(slimeDeath, 0.1f);
-                levelManager.GameOver(gameObject.GetComponent<Slime>());
+                isDead = true;
+                levelManager.GameOver();
             }
             else
             {
@@ -305,7 +337,8 @@ public class Slime : MonoBehaviour
                     myRigidbody.velocity = Vector2.zero;
                     PlaySound(slimeDeath, 0.1f);
                     collidedHazard.StopHazardMove();
-                    levelManager.GameOver(gameObject.GetComponent<Slime>());
+                    isDead = true;
+                    levelManager.GameOver();
                 }
             }
         }

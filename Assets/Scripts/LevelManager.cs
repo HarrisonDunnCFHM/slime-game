@@ -14,10 +14,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] GameObject retryMenu;
     [SerializeField] GameObject screenWipeObject;
     [SerializeField] float wipeSpeed = 1f;
+    [SerializeField] float fadeSpeed = 1f;
+    [SerializeField] float maxFadeIn = 0.9f;
+    [SerializeField] float minMaskSize = 5f;
     [SerializeField] List<AudioClip> slimeWin;
     [SerializeField] float slimeVolume = 0.6f;
     [SerializeField] bool isSplashScreen;
     [SerializeField] float goalTimer = 1f;
+
 
     //cached refs
     Goal[] goalsOnMap;
@@ -27,7 +31,11 @@ public class LevelManager : MonoBehaviour
     int goalsNeeded;
     int goalsHave;
     bool isWiping;
-    GameObject screenWipe;
+    GameObject screenWipeMask;
+    float wipeDelay = 0f;
+    int currentSceneIndex;
+    bool screenDarkOn = false;
+    GameObject screenDarkener;
 
     private void Start()
     {
@@ -39,11 +47,31 @@ public class LevelManager : MonoBehaviour
         winScreen.SetActive(false);
         retryMenu.SetActive(false);
         levelPlayable = true;
+        currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
     }
 
     private void Update()
     {
         if (isSplashScreen) { return; }
+        CheckForWin();
+        HandleGameOverWipe();
+    }
+
+    private void HandleGameOverWipe()
+    {
+        if (!levelPlayable)
+        {
+            Color newColor = screenWipeObject.GetComponent<SpriteRenderer>().color;
+            if (newColor.a < maxFadeIn)
+            {
+                newColor.a += Time.deltaTime * fadeSpeed;
+                screenWipeObject.GetComponent<SpriteRenderer>().color = newColor;
+            }
+        }
+    }
+
+    private void CheckForWin()
+    {
         if (goalsHave == goalsNeeded)
         {
             if (levelPlayable)
@@ -65,6 +93,11 @@ public class LevelManager : MonoBehaviour
         {
             currentGoalTime = goalTimer;
         }
+    }
+
+    public float GetWipeSpeed()
+    {
+        return wipeSpeed;
     }
 
     private void PlaySound(List<AudioClip> clipSet)
@@ -91,70 +124,17 @@ public class LevelManager : MonoBehaviour
         goalsFinished.text = "Flags: " + goalsHave.ToString() + "/" + goalsNeeded.ToString();
     }
     
-    public void GameOver(Slime deadSlime)
+    public void GameOver()
     {
         levelPlayable = false;
-        StartCoroutine(ScreenWipe(deadSlime));
+        screenDarkOn = false;
         retryMenu.SetActive(true);
     }
-
-    private IEnumerator ScreenWipe(Slime deadSlime)
-    {
-        screenWipe = Instantiate<GameObject>(screenWipeObject, deadSlime.transform.position, Quaternion.identity);
-        DontDestroyOnLoad(screenWipe);
-        //screenWipe.transform.localScale = new Vector3(50f, 50f, 1f);
-        Debug.Log(screenWipe.transform.localScale.ToString());
-        isWiping = true;
-        while (isWiping)
-        {
-            screenWipe.transform.localScale = new Vector3
-                (screenWipe.transform.localScale.x - (Time.deltaTime * ( wipeSpeed)),
-                screenWipe.transform.localScale.y - (Time.deltaTime * ( wipeSpeed)), 1f);
-            Debug.Log(screenWipe.transform.localScale.ToString());
-            if (screenWipe.transform.localScale.x <= 2f)
-            {
-                screenWipe.transform.localScale = new Vector3(2f, 2f, 1f);
-                isWiping = false;
-            }
-            yield return null;
-        }
-    }
-
-    private IEnumerator ScreenUnwipe()
-    {
-        var screenWipes = FindObjectsOfType<GameObject>();
-        foreach(GameObject isScreenWipe in screenWipes)
-        {
-            if (isScreenWipe.name == "Screen Wipe(Clone)")
-            {
-                screenWipe = isScreenWipe;
-            }
-        }
-        isWiping = true;
-        while (isWiping)
-        {
-            screenWipe.transform.localScale = new Vector3
-                (screenWipe.transform.localScale.x + (Time.deltaTime * (wipeSpeed)),
-                screenWipe.transform.localScale.y + (Time.deltaTime * (wipeSpeed)), 1f);
-            Debug.Log(screenWipe.transform.localScale.ToString());
-            if (screenWipe.transform.localScale.x >= 50f)
-            {
-                Destroy(screenWipe);
-                isWiping = false;
-            }
-            yield return null;
-        }
-        retryMenu.SetActive(false);
-        winScreen.SetActive(false);
-        levelPlayable = true;
-        ResetGoals();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+   
 
     public void ResetLevel()
     {
-        StartCoroutine(ScreenUnwipe());
-        
+        SceneManager.LoadScene(currentSceneIndex);
     }
 
     public void LoadNextLevel()
@@ -163,7 +143,7 @@ public class LevelManager : MonoBehaviour
         winScreen.SetActive(false);
         levelPlayable = true;
         ResetGoals();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(currentSceneIndex + 1);
     }
 
     public bool CheckLevelPlayable()
