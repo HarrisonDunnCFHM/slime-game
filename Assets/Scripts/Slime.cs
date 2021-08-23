@@ -241,7 +241,7 @@ public class Slime : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        FearCheck(collision);
+        ScaredCheck(collision);
         HazardCheck(collision);
         GoalCheck(collision);
         SlimeCheck(collision);
@@ -250,7 +250,7 @@ public class Slime : MonoBehaviour
 
 
 
-    private void FearCheck(Collider2D collision)
+    private void ScaredCheck(Collider2D collision)
     {
         var inFrontOfCrab = collision.GetComponent<EnemyTurn>();
         if (inFrontOfCrab != null)
@@ -324,6 +324,7 @@ public class Slime : MonoBehaviour
                 collidedHazard.StopHazardMove();
                 PlaySound(slimeDeath, 0.1f);
                 isDead = true;
+                myAnimator.SetBool("isDead", true);
                 levelManager.GameOver();
             }
             else
@@ -338,6 +339,7 @@ public class Slime : MonoBehaviour
                     PlaySound(slimeDeath, 0.1f);
                     collidedHazard.StopHazardMove();
                     isDead = true;
+                    myAnimator.SetBool("isDead", true);
                     levelManager.GameOver();
                 }
             }
@@ -346,7 +348,7 @@ public class Slime : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        FearCheck(collision);
+        ScaredCheck(collision);
         var collidedGoal = collision.GetComponent<Goal>();
         if (collidedGoal != null)
         {
